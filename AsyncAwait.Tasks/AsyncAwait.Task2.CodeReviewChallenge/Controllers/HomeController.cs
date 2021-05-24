@@ -27,14 +27,16 @@ namespace AsyncAwait.Task2.CodeReviewChallenge.Controllers
 
         public async Task<ActionResult> Privacy()
         {
-            //Don't block entering thread. Also that excludes deadlock
+            //Don't block entering thread. Also that prevent deadlock
+            // ViewBag.Message = _privacyDataService.GetPrivacyDataAsync().Result;
             ViewBag.Message = await _privacyDataService.GetPrivacyDataAsync();
             return View();
         }
 
         public async Task<IActionResult> Help()
         {
-            //Don't block entering thread. Also that excludes deadlock
+            //Don't block entering thread. Also that prevent deadlock
+            // ViewBag.RequestInfo = await _assistant.RequestAssistanceAsync("guest").ConfigureAwait(false);
             ViewBag.RequestInfo = await _assistant.RequestAssistanceAsync("guest");
             return View();
         }
