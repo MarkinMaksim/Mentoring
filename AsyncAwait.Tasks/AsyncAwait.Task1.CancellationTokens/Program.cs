@@ -59,11 +59,7 @@ namespace AsyncAwait.Task1.CancellationTokens
         private static void CalculateSum(int n, CancellationToken token)
         {
             // todo: make calculation asynchronous
-            var task = Task.Run(() => 
-            {
-                var result = Calculator.Calculate(n, token);
-                return Task.Run(() => result);
-            });
+            var task = Task.Run(() => Task.FromResult(Calculator.Calculate(n, token)));
             task.ContinueWith((x) => { Console.WriteLine($"Sum for {n} = {x.Result}."); }, TaskContinuationOptions.NotOnCanceled);
             task.ContinueWith((x) => { Console.WriteLine($"Sum for {n} cancelled..."); }, TaskContinuationOptions.OnlyOnCanceled);
 
