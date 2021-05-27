@@ -102,6 +102,7 @@ namespace Client
                             try
                             {
                                 serverQueue.Send(message);
+                                textBox1.Invoke(new Action(() => this.textBox1.AppendText($"File with name {message.FileName} was sended. Position: {fstream.Position} \r\n")));
                             }
                             catch (Exception ex)
                             {

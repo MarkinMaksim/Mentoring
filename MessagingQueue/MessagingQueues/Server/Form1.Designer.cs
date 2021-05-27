@@ -37,14 +37,14 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(244, 168);
+            this.textBox1.Size = new System.Drawing.Size(938, 168);
             this.textBox1.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(296, 237);
+            this.ClientSize = new System.Drawing.Size(993, 237);
             this.Controls.Add(this.textBox1);
             this.Name = "Form1";
             this.Text = "Server";

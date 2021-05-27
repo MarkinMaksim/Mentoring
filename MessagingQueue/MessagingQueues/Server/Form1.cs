@@ -91,6 +91,8 @@ namespace Server
                     {
                         fstream.Write(messageData.Data, 0, messageData.Data.Length);
                     }
+
+                    textBox1.Invoke(new Action(() => this.textBox1.AppendText($"File with name {messageData.FileName} was appended.\r\n")));
                 }
                 else
                 {
@@ -98,6 +100,8 @@ namespace Server
                     {
                         fstream.Write(messageData.Data, 0, messageData.Data.Length);
                     }
+
+                    textBox1.Invoke(new Action(() => this.textBox1.AppendText($"File with name {messageData.FileName} was created.\r\n")));
                 }
             }
         }
