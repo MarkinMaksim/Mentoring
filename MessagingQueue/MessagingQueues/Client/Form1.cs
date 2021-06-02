@@ -102,11 +102,11 @@ namespace Client
                             try
                             {
                                 serverQueue.Send(message);
-                                OuthputInfo.Invoke(new Action(() => this.OuthputInfo.AppendText($"File with name {message.FileName} was sended. Position: {fstream.Position} \r\n")));
+                                OutputInfo.Invoke(new Action(() => this.OutputInfo.AppendText($"File with name {message.FileName} was sended. Position: {fstream.Position} \r\n")));
                             }
                             catch (Exception ex)
                             {
-                                OuthputInfo.Invoke(new Action(() => this.OuthputInfo.AppendText(ex.Message)));
+                                OutputInfo.Invoke(new Action(() => this.OutputInfo.AppendText(ex.Message)));
                             }
                         }
                     }
@@ -120,7 +120,7 @@ namespace Client
                     }
                     else
                     {
-                        OuthputInfo.Invoke(new Action(() => OuthputInfo.AppendText(ex.Message)));
+                        OutputInfo.Invoke(new Action(() => OutputInfo.AppendText(ex.Message)));
                     }
                     
                 }
