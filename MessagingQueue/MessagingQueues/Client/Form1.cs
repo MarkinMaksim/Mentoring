@@ -54,7 +54,7 @@ namespace Client
 
                     if (filesToSend.Length > 0)
                     {
-                        SendMessage(filesToSend, serverQueue, false);
+                        SendMessage(filesToSend, serverQueue, 0);
                     }
 
                     previosFiles = files;
@@ -68,7 +68,7 @@ namespace Client
             workThread.Join(1000);
         }
 
-        private void SendMessage(string[] files, MessageQueue serverQueue, bool resendFlag)
+        private void SendMessage(string[] files, MessageQueue serverQueue, int repeatCount)
         {
             foreach (var file in files)
             {
@@ -102,25 +102,25 @@ namespace Client
                             try
                             {
                                 serverQueue.Send(message);
-                                textBox1.Invoke(new Action(() => this.textBox1.AppendText($"File with name {message.FileName} was sended. Position: {fstream.Position} \r\n")));
+                                OuthputInfo.Invoke(new Action(() => this.OuthputInfo.AppendText($"File with name {message.FileName} was sended. Position: {fstream.Position} \r\n")));
                             }
                             catch (Exception ex)
                             {
-                                textBox1.Invoke(new Action(() => this.textBox1.AppendText(ex.Message)));
+                                OuthputInfo.Invoke(new Action(() => this.OuthputInfo.AppendText(ex.Message)));
                             }
                         }
                     }
                 }
                 catch(IOException ex)
                 {
-                    if(resendFlag == false)
+                    if(repeatCount < 5)
                     {
                         Thread.Sleep(1000);
-                        SendMessage(new[] { file }, serverQueue, true);
+                        SendMessage(new[] { file }, serverQueue, repeatCount + 1);
                     }
                     else
                     {
-                        textBox1.Invoke(new Action(() => textBox1.AppendText(ex.Message)));
+                        OuthputInfo.Invoke(new Action(() => OuthputInfo.AppendText(ex.Message)));
                     }
                     
                 }
