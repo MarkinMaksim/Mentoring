@@ -18,7 +18,6 @@ namespace GameOfLife
         private Canvas drawCanvas;
         private Ellipse[,] cellsVisuals;
 
-        
         public Grid(Canvas c)
         {
             drawCanvas = c;
