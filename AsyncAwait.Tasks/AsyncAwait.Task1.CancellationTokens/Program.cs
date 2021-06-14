@@ -8,6 +8,8 @@
  */
 
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AsyncAwait.Task1.CancellationTokens
 {
@@ -29,9 +31,12 @@ namespace AsyncAwait.Task1.CancellationTokens
             string input = Console.ReadLine();
             while (input.Trim().ToUpper() != "Q")
             {
+                CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+                CancellationToken token = cancelTokenSource.Token;
+
                 if (int.TryParse(input, out int n))
                 {
-                    CalculateSum(n);
+                    CalculateSum(n, token);
                 }
                 else
                 {
@@ -39,23 +44,29 @@ namespace AsyncAwait.Task1.CancellationTokens
                     Console.WriteLine("Enter N: ");
                 }
 
+                var oldInput = input;
                 input = Console.ReadLine();
+                if (input.Trim().ToUpper() != "N" || oldInput != input)
+                {
+                    cancelTokenSource.Cancel();
+                }
             }
 
             Console.WriteLine("Press any key to continue");
             Console.ReadLine();
         }
 
-        private static void CalculateSum(int n)
+        private static void CalculateSum(int n, CancellationToken token)
         {
             // todo: make calculation asynchronous
-            long sum = Calculator.Calculate(n);
-            Console.WriteLine($"Sum for {n} = {sum}.");
+            var task = Task.Run(() => Task.FromResult(Calculator.Calculate(n, token)));
+            task.ContinueWith((x) => { Console.WriteLine($"Sum for {n} = {x.Result}."); }, TaskContinuationOptions.NotOnCanceled);
+            task.ContinueWith((x) => { Console.WriteLine($"Sum for {n} cancelled..."); }, TaskContinuationOptions.OnlyOnCanceled);
+
             Console.WriteLine();
             Console.WriteLine("Enter N: ");
-            // todo: add code to process cancellation and uncomment this line    
-            // Console.WriteLine($"Sum for {n} cancelled...");
-                        
+            // todo: add code to process cancellation and uncomment this line
+
             Console.WriteLine($"The task for {n} started... Enter N to cancel the request:");
         }
     }
